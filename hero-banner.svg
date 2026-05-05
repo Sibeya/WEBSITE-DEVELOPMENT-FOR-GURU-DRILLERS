@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B0000;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#1C1C2E;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#232338;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0.8" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="400" fill="url(#heroGrad)" />
+  
+  <!-- Industrial Machinery Silhouettes -->
+  <g opacity="0.3">
+    <!-- Drilling Rig -->
+    <rect x="100" y="150" width="80" height="200" fill="#1C1C2E" />
+    <polygon points="100,150 140,100 140,120 180,120 180,150" fill="#8B0000" />
+    <circle cx="140" cy="180" r="15" fill="#FFD700" />
+    
+    <!-- Drill Equipment -->
+    <rect x="900" y="200" width="60" height="150" fill="#1C1C2E" />
+    <polygon points="900,200 930,180 960,180 960,200" fill="#8B0000" />
+    <rect x="920" y="250" width="20" height="80" fill="#FFD700" />
+  </g>
+  
+  <!-- Central Focus Element -->
+  <g transform="translate(600, 200)">
+    <!-- Drill Bit Icon -->
+    <polygon points="-30,-40 30,-40 40,0 30,40 -30,40 -40,0" fill="#FFD700" filter="url(#glow)" />
+    <circle cx="0" cy="0" r="25" fill="none" stroke="#8B0000" stroke-width="4" />
+    <circle cx="0" cy="0" r="15" fill="#1C1C2E" />
+  </g>
+  
+  <!-- Text Overlay -->
+  <text x="600" y="350" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#FFFFFF" text-anchor="middle" filter="url(#glow)">
+    GRD - PRECISION DRILLING SOLUTIONS
+  </text>
+</svg>

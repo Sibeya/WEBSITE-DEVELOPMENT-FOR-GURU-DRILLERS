@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel – GRD GURUROCDRILLINGTOOL</title>
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="adm-header">
+  <div class="adm-brand">
+    <img src="../images/logo.png" alt="GRD Logo">
+    <h1>GRD <span>Admin</span> Panel</h1>
+  </div>
+  <div class="adm-user">
+    <span>👤 Administrator</span>
+    <a href="../index.html" target="_blank" class="adm-btn adm-btn-primary adm-btn-sm">🌐 View Website</a>
+    <button class="adm-logout" onclick="if(confirm('Logout?'))window.location.href='login.php'">Logout</button>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="adm-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="adm-sidebar">
+    <div class="adm-nav-item active" data-page="dashboard">
+      <span class="nav-ico">📊</span> Dashboard
+    </div>
+    <div class="adm-nav-item" data-page="products-page">
+      <span class="nav-ico">⚙️</span> Products
+    </div>
+    <div class="adm-nav-item" data-page="enquiries-page">
+      <span class="nav-ico">📩</span> Enquiries
+    </div>
+    <div class="adm-nav-item" data-page="settings-page">
+      <span class="nav-ico">🔧</span> Settings
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="adm-main">
+
+    <!-- Global Alert -->
+    <div id="global-alert" class="alert" style="display:none"></div>
+
+    <!-- =================== DASHBOARD =================== -->
+    <div class="adm-page active" id="dashboard">
+      <div class="page-header">
+        <h2 class="page-title">📊 Dashboard</h2>
+        <span style="font-size:0.8rem;color:var(--silver-dark)" id="current-date"></span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="s-num" id="total-products">—</div>
+          <div class="s-label">Total Products</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-num" id="active-products">—</div>
+          <div class="s-label">Active Products</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-num" id="total-enquiries">—</div>
+          <div class="s-label">Total Enquiries</div>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <h3>🚀 Quick Actions</h3>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="adm-btn adm-btn-primary" onclick="showPage('products-page');document.getElementById('btn-add-product').click()">➕ Add New Product</button>
+          <button class="adm-btn adm-btn-primary" onclick="showPage('enquiries-page')">📩 View Enquiries</button>
+          <a href="../index.html" target="_blank" class="adm-btn adm-btn-primary">🌐 View Website</a>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <h3>📝 Recent Enquiries</h3>
+        <table class="adm-table">
+          <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Product</th><th>Action</th></tr></thead>
+          <tbody id="recent-enquiries-tbody">
+            <tr><td colspan="5" style="text-align:center;color:var(--silver-dark);padding:20px">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- =================== PRODUCTS =================== -->
+    <div class="adm-page" id="products-page">
+      <div class="page-header">
+        <h2 class="page-title">⚙️ Products</h2>
+        <button class="adm-btn adm-btn-primary" id="btn-add-product">➕ Add New Product</button>
+      </div>
+
+      <div class="adm-card">
+        <h3>All Products — Changes appear instantly on the website</h3>
+        <table class="adm-table">
+          <thead>
+            <tr>
+              <th>Image</th><th>Name</th><th>Category</th><th>Specifications</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody">
+            <tr><td colspan="6" style="text-align:center;color:var(--silver-dark);padding:20px">Loading products...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- =================== ENQUIRIES =================== -->
+    <div class="adm-page" id="enquiries-page">
+      <div class="page-header">
+        <h2 class="page-title">📩 Enquiries</h2>
+        <button class="adm-btn adm-btn-primary" onclick="loadEnquiries()">🔄 Refresh</button>
+      </div>
+      <div class="adm-card">
+        <h3>All Website Enquiries</h3>
+        <table class="adm-table">
+          <thead>
+            <tr><th>Date</th><th>Name</th><th>Email</th><th>Phone</th><th>Product</th><th>Action</th></tr>
+          </thead>
+          <tbody id="enquiries-tbody">
+            <tr><td colspan="6" style="text-align:center;color:var(--silver-dark);padding:20px">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- =================== SETTINGS =================== -->
+    <div class="adm-page" id="settings-page">
+      <div class="page-header">
+        <h2 class="page-title">🔧 Settings</h2>
+      </div>
+      <div class="adm-card">
+        <h3>Email Configuration</h3>
+        <p style="color:var(--silver-dark);font-size:0.875rem;margin-bottom:16px">Update the email addresses in <code style="background:rgba(35,86,200,0.1);padding:2px 8px;color:var(--blue-bright)">includes/config.php</code> to configure email notifications.</p>
+        <div class="adm-form-grid" style="margin-top:16px">
+          <div class="adm-form-group">
+            <label>Enquiry Notification To</label>
+            <input type="email" value="info@gururocdrillingtool.com" readonly style="opacity:0.6">
+          </div>
+          <div class="adm-form-group">
+            <label>From Email</label>
+            <input type="email" value="noreply@gururocdrillingtool.com" readonly style="opacity:0.6">
+          </div>
+        </div>
+      </div>
+      <div class="adm-card">
+        <h3>Database Info</h3>
+        <p style="color:var(--silver-dark);font-size:0.875rem">Database: <strong style="color:var(--blue-bright)">grd_website</strong> | Host: <strong style="color:var(--blue-bright)">localhost</strong><br><br>Tables: <code style="background:rgba(35,86,200,0.1);padding:2px 8px;color:var(--blue-bright)">products</code> &nbsp; <code style="background:rgba(35,86,200,0.1);padding:2px 8px;color:var(--blue-bright)">enquiries</code><br><br>Auto-created on first load. Compatible with XAMPP / WAMP / LAMP.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- =================== ADD/EDIT PRODUCT MODAL =================== -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Add New Product</h3>
+      <button class="modal-close">✕</button>
+    </div>
+
+    <form id="product-form" enctype="multipart/form-data">
+      <input type="hidden" id="product-id" name="product_id" value="">
+
+      <div class="adm-form-grid">
+        <div class="adm-form-group">
+          <label>Product Name *</label>
+          <input type="text" id="prod-name" name="name" placeholder="e.g. SD Series DTH Drill Bits" required>
+        </div>
+        <div class="adm-form-group">
+          <label>Category *</label>
+          <select id="prod-category" name="category">
+            <option value="DTH">DTH</option>
+            <option value="Rock Drilling">Rock Drilling</option>
+            <option value="Mining">Mining</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Drill Bits & Cutting Tools">Drill Bits & Cutting Tools</option>
+            <option value="Top Hammer">Top Hammer</option>
+            <option value="General">General</option>
+          </select>
+        </div>
+        <div class="adm-form-group full">
+          <label>Description</label>
+          <textarea id="prod-desc" name="description" placeholder="Product description, features and applications..."></textarea>
+        </div>
+
+        <div class="adm-form-group full">
+          <label>Specifications (Key → Value pairs)</label>
+          <div id="spec-pairs" class="spec-pairs"></div>
+          <button type="button" class="add-spec-btn" onclick="addSpecPair()">➕ Add Specification</button>
+        </div>
+
+        <div class="adm-form-group">
+          <label>Product Image</label>
+          <input type="file" id="prod-image" name="image" accept="image/jpeg,image/png,image/webp">
+          <img id="img-preview" class="img-preview" style="display:none" alt="Preview">
+        </div>
+        <div class="adm-form-group">
+          <label>Visibility on Website</label>
+          <select id="prod-active" name="is_active">
+            <option value="1">✅ Active – Show on Website</option>
+            <option value="0">❌ Hidden – Not on Website</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px">
+        <button type="button" class="adm-btn" style="background:rgba(255,255,255,0.08);color:var(--silver)" onclick="closeModal('product-modal')">Cancel</button>
+        <button type="submit" class="adm-btn adm-btn-primary" id="save-product-btn">💾 Save Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- =================== ENQUIRY VIEW MODAL =================== -->
+<div class="modal-overlay" id="enquiry-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">📩 Enquiry Details</h3>
+      <button class="modal-close">✕</button>
+    </div>
+    <div id="enq-detail"></div>
+  </div>
+</div>
+
+<script>
+// Set current date in dashboard
+document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+// Dashboard recent enquiries (reuse enquiries data)
+async function loadDashboardEnquiries() {
+  try {
+    const res = await fetch('../api/enquiry.php?list=1');
+    const data = await res.json();
+    if (data.success) {
+      const tbody = document.getElementById('recent-enquiries-tbody');
+      const recent = data.enquiries.slice(0, 5);
+      if (!recent.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--silver-dark);padding:20px">No enquiries yet.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = recent.map(e => `<tr>
+        <td style="font-size:0.78rem;color:var(--silver-dark)">${new Date(e.created_at).toLocaleDateString('en-IN')}</td>
+        <td>${e.name}</td>
+        <td style="color:var(--blue-bright)">${e.email}</td>
+        <td style="font-size:0.8rem">${(e.product_interest||'General').substring(0,25)}</td>
+        <td><button class="adm-btn adm-btn-primary adm-btn-sm" onclick="viewEnquiry(${e.id})">View</button></td>
+      </tr>`).join('');
+    }
+  } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadDashboardEnquiries();
+});
+</script>
+<script src="../js/admin.js"></script>
+</body>
+</html>
